@@ -1,0 +1,540 @@
+
+
+  //variables can store different types of data
+  String name = "georges program";
+  int age = 17;
+  double pi = 3.13159;
+  bool isTrue = true;
+
+  
+to increment values they can bee described as ++
+e.g. 1++ == 2, 1-- = 0
+
+----------------------------------------------------------
+C O N T R O L L F L O W
+
+
+S W I T C H  S T A T E M E N T S
+switch (expression(variable)) {
+      case "value":// variable statements are for checking conditions
+        print("staement");
+        break;
+}
+      case "value":
+        print("statement")
+        break;
+
+      default: //this is for if all cases are false
+        print("invalid Grade");
+
+S W I T C H  E X A M P L E  L A Y O U T
+    switch (age) {
+      case "17":
+        print("excellent!");
+        break;
+      default:
+        print("invalid Grade");
+    }
+
+I F , E L I F , E L S E
+for (int i = 0; i <= 5; i++) {}
+    if (age< 13) {
+      print("you can only");
+    } else if (age < 18) {
+      print ("good!");
+    } 
+
+
+F O R  L O O P
+for (int i=0; i <= 5; i++) {
+      print(i);
+    }
+for (int i=0; i <= 100; i++) {
+      print(i);
+      if (i ==54) {
+        break;
+      }
+    } // BREAK statement for for loop     
+
+W H I L E  L O O P
+int countDown = 5;
+
+    while (countDown>0) {
+    countDown--;
+    }
+  
+
+----------------------------------------------------
+
+F U N C T I O N S 
+
+
+BASIC FUNCTION
+void greet() {
+      print("hello, john");
+    }
+
+
+FUNCTION WITH PARAMETERS
+void greetPerson(String name) {
+      print("hello, " + name);
+    }
+
+
+  @override
+  
+  Widget build(BuildContext context) {
+    greetPerson("steve");// if two arguments are given to the function two are expected in greetPerson
+  }
+
+FUNCTION WITH RETURN TYPE
+int add(int a, int b){
+  int sum = a+b;
+  return sum;
+}
+
+
+
+  @override
+  Widget build(BuildContext context) {
+    print(add(3, 5));
+  }
+-------------------------------------------------------------
+D A T A  S T R U C T U R E S
+LIST:
+    an ordered collects of elements, can have duplicates
+LIST INT
+List numbers = [1, 2, 3];
+// numbers[0] -> 1 ... ecc
+
+void printNumbers(){
+  for (int i = 0; i < numbers.length; i++){
+    print(numbers[i]);
+  }
+}
+LIST STRING
+List<String>names = ["george", "dan", "tom"];
+// numbers[0] -> 1 ... ecc
+
+void printNumbers(){
+  for (int i = 0; i < names.length; i++){
+    print(names[i]);
+  }
+}
+
+
+SET:
+    undered collection of unique elements
+Set<String> uniquenames = {"mitch", "sharon", "vince"};
+
+
+Map:
+    stored as key-value pairs
+Map user = {
+    'name': "mitch koko",
+    'age': 27,
+    'height':180,
+  };
+// user['name'] -> "mitch koko"
+// user['age'] -> 27
+// user['height'] -> 180
+
+
+
+F L U T T E R    W I G D E T S
+
+child: Text(
+              "George Gow",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+              ),
+
+
+child: Container(
+            height: 300,
+            width: 300,
+            //cant have colour here !!!color: Color.fromARGB(255, 196, 66, 27),
+            decoration:  BoxDecoration(
+              color: Color.fromARGB(255, 52, 199, 56),
+              //curve the corners
+              borderRadius: BorderRadius.circular(20),
+            ),
+            padding: EdgeInsets.all(25),// can be left: 25, top: 25
+            //padding: EdgeInsets.symmetric(horizontal: 25),//can do for horizontal or vertical
+            
+
+child: Icon(
+              Icons.balance,
+              color: Colors.white,
+              size: 64,
+this is icons like you can put heart image in
+
+
+title bar for navigation
+appBar: AppBar(
+          title: Text("ASHTONS FISHMONGERS"),
+          
+          backgroundColor: Colors.green,
+          elevation: 2,
+          leading:  Icon(Icons.menu),
+          actions: [
+            IconButton(onPressed: () {}, 
+            icon: Icon(Icons.logout),
+             ),
+
+
+appBar: AppBar(
+          title: Text("ASHTONS FISHMONGERS"),
+          
+          backgroundColor: Colors.green,
+          elevation: 2,
+          leading:  Icon(Icons.menu),
+          actions: [
+            IconButton(onPressed: () {}, 
+            icon: Icon(Icons.logout),
+             ),
+          ],
+        ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            // 1st box
+            Container(
+              height:200,
+              width: 200,
+              color: Colors.orange,
+            ),
+            // second box
+            Container(
+              height:200,
+              width: 200,
+              color: Colors.orange[200],
+            ),
+            //third box
+            Container(
+              height:200,
+              width: 200,
+              color: Colors.orange[100],
+            ),
+
+            creates boxes. 
+
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            // this formats the boxes
+
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            // adjustd the boxres across the x MainAxisAlignment
+
+
+P A R R A L A X  I M A G E S(
+  //=> runApp(const MyApp());
+  async {
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    runApp(const MyApp());
+  }
+
+  class MyApp extends StatelessWidget {
+    const MyApp({super.key});
+
+      @override
+    Widget build(BuildContext context) {
+      return MaterialApp(
+        theme: ThemeData.dark().copyWith(scaffoldBackgroundColor: Colors.black12),
+        debugShowCheckedModeBanner: false,
+        home: const Scaffold(
+          body: Center(
+            child: ParallaxInfo(),
+          ),
+        ),
+      );
+    }
+  }
+
+  class ParallaxInfo extends StatelessWidget{
+    const ParallaxInfo({super.key});
+    @override
+    Widget build(BuildContext context) {
+      return SingleChildScrollView(
+        child: Column(
+          children: [
+            for (final location in locations)
+              LocationListItem(
+                imageUrl: location.imageUrl,
+                name: location.name,
+                country: location.place,
+              ),
+          ],
+        ),
+      );
+    }
+  }
+  @immutable
+  class LocationListItem extends StatelessWidget{
+      LocationListItem({
+        super.key,
+        required this.imageUrl,
+        required this.name,
+        required this.country,
+      });
+
+      final String imageUrl;
+      final String name;
+      final String country;
+      final GlobalKey _backgroundImageKey = GlobalKey();
+
+    @override
+    Widget build(BuildContext context) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+        child: AspectRatio(
+          aspectRatio: 16/9,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(0),
+            child: Stack(
+              children: [
+                _buildParallaxBackground(context),
+                _buildGradient(),
+                _buildTitleAndSubtitle(),
+              ],
+            ),
+          ),
+        ),
+      );
+    }  
+    Widget _buildParallaxBackground(BuildContext context) {
+      return Flow(
+        delegate: ParallaxFlowDelegate(
+          scrollable: Scrollable.of(context),
+          listItemContext: context,
+          backgroundImageKey: _backgroundImageKey,
+        ),
+        children:[
+          Image.network(
+            imageUrl, 
+            key: _backgroundImageKey,
+            fit: BoxFit.fill,
+          ),
+        ],
+      ); 
+    }
+      Widget _buildGradient(){
+      return Positioned.fill(
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            gradient:  LinearGradient(
+              colors: [Colors.transparent, Colors.black.withOpacity(0.7)],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              stops: const [0.6, 0.95]
+            )
+          )
+        ),
+      );
+    }
+
+    Widget _buildTitleAndSubtitle() {
+      return Positioned(
+        left: 20,
+        bottom: 20,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              name,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+              country,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 14,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+
+  class ParallaxFlowDelegate extends FlowDelegate {
+    ParallaxFlowDelegate({
+      required this.scrollable,
+      required this.listItemContext,
+      required this.backgroundImageKey,
+    }) :super(repaint: scrollable.position);
+
+    final ScrollableState scrollable;
+    final BuildContext listItemContext;
+    final GlobalKey backgroundImageKey;
+
+    @override
+    BoxConstraints getConstraintsForChild(int i, BoxConstraints constraints) {
+      return BoxConstraints.tightFor(
+        width: constraints.maxWidth,// this will properly size your images
+      );
+    }
+
+    @override
+    void paintChildren(FlowPaintingContext context) {
+      //calculate the position of this list item within the viewport
+        final scrollableBox = scrollable.context.findRenderObject() as RenderBox;
+        final listItemBox = listItemContext.findRenderObject() as RenderBox;
+        final listItemOffset = listItemBox.localToGlobal(
+          listItemBox.size.centerLeft(Offset.zero),
+          ancestor: scrollableBox
+        );
+
+        // determine the percent position of this list item within the scrollable area
+        final viewportDimension = scrollable.position.viewportDimension;
+        final scrollFraction = (listItemOffset.dy / viewportDimension).clamp(0.0, 1.0);
+
+        //calculate the vertical alignment of the background
+        //based on the scroll percent
+        final verticalAlignment = Alignment(0.0, scrollFraction * 2-1);
+
+        //convert the backgrounf alignment into a pixel offset for painting purposes
+        final backgroundSize = 
+          (backgroundImageKey.currentContext!.findRenderObject() as RenderBox).size;
+        final listItemSize = context.size;
+        final childRect = 
+          verticalAlignment.inscribe(backgroundSize, Offset.zero & listItemSize);
+        
+        //paint the background
+        context.paintChild(
+          0,
+          transform: 
+          Transform.translate(offset: Offset(0.0, childRect.top)).transform,
+        );
+    }
+
+    @override 
+    bool shouldRepaint(ParallaxFlowDelegate oldDelegate) {// covariant FlowDelegate oldDelegate (old)
+      return scrollable != oldDelegate.scrollable ||
+          listItemContext != oldDelegate.listItemContext ||
+          backgroundImageKey != oldDelegate.backgroundImageKey;
+    }// this passes the information needed for the state the image should be in at points of scrolling >>
+    /* POINT OF IMPLEMENTATION
+  To look up the bounds of the Scrollable, you pass a 
+    ScrollableState into your FlowDelegate.
+
+  To look up the bounds of your individual list item, pass 
+    your list item's BuildContext into your FlowDelegate.
+
+  To look up the final size of your background image, assign 
+    a GlobalKey to your Image widget, and then you pass that 
+          GlobalKey into your FlowDelegate.
+    */
+    
+  }
+
+
+  /*error in uses of final and const. is hwo they treat the lists and immutables.
+
+    const List<Location> locations = [
+        name: 'Mount Rushmore',
+        place: 'U.S.A',
+        imageUrl: '/home/georgegow/Downloads/ashtons_website/web/icons/upscaled_image.jpg',
+      
+    ];
+  */
+)
+P A R R A L A X V 2(
+  void main() {
+    runApp(homepage());
+  }
+
+
+  class homepage extends StatelessWidget {
+    const homepage({super.key});
+
+    @override
+    Widget build(BuildContext context) {
+      return MaterialApp(
+      title: "E.Ashtons FISHMONGERS",
+      home: HomePage(),
+      );
+    }
+  }
+
+
+  class HomePage extends StatefulWidget{
+    const HomePage({super.key});
+
+
+    
+    @override
+    _HomePageState createState() => _HomePageState();
+    
+  }
+
+  class _HomePageState extends State<HomePage> {
+
+    double offset = 0;
+    @override
+    Widget build(BuildContext context) {
+      final height = MediaQuery.of(context).size.height; //makes the same size of browser
+      final width = MediaQuery.of(context).size.width;
+      return Material(
+        child: NotificationListener<ScrollNotification>(
+          onNotification: updateOffsetAccordingToScoll,
+            child: Stack(
+              children: <Widget>[
+                Positioned(
+                  top: -.25 * offset,
+                  child: FadeInImage.memoryNetwork(
+                    placeholder: kTransparentImage, 
+                    image: kHeroImage,
+                    height :height,
+                    width: width,
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                SingleChildScrollView(
+                  child:Column(
+                    children: <Widget>[
+                      SizedBox(height: height),
+                      InkWell(
+                        splashColor: Colors.black26,
+                        onTap: () {},
+                        child: Ink.image(image: AssetImage('assets/ashtons-van.jpg'),
+                          height: 200,
+                          width: 200,
+                          fit: BoxFit.cover,
+                          ),
+                      ),
+                      Container(height:height, width: width, color: Colors.blue),
+                      AppBar(
+                        leading: Icon(Icons.menu),
+                      ),
+                    ]
+                  ),
+                ),
+                
+                
+              ],
+            ),
+          ),
+  
+      );
+    }
+    
+    //returns true to cancel notification bubbling
+    bool updateOffsetAccordingToScoll(ScrollNotification scrollNotification) {
+      setState(() => offset = scrollNotification.metrics.pixels);
+      return true;
+    }
+    
+  }
+
+  const kHeroImage="web/icons/upscaled_image.jpg";
+)
