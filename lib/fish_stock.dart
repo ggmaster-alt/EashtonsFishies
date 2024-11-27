@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:eashtonsfishies/main.dart';
 
 class FishStock extends StatelessWidget {
   const FishStock({super.key});
@@ -13,9 +13,12 @@ class FishStock extends StatelessWidget {
       body: Center(
         child: ElevatedButton(
           onPressed: () {
+            Navigator.of(context).pop(
+              MaterialPageRoute(builder: (context) => HomeView())
+            );
             // Navigate back to first route when tapped.
           },
-          child: const Text('Go back!'),
+          child: const Text('Fish Page'),
         ),
       ),
     );

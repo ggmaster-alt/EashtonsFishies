@@ -1,7 +1,8 @@
-import 'package:eashtonsfishies/Fish_page.dart';
+import 'package:eashtonsfishies/loginButton.dart';
 import 'package:eashtonsfishies/fish_stock.dart';
 import 'package:flutter/material.dart';
 import 'package:eashtonsfishies/fishAdText.dart';
+import 'about_page.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -13,6 +14,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      routes: {
+        'Fish': (context) => FishStock(),// clicks both bevcause of size.
+        'About': (context) => AboutPage(),
+      },
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -68,7 +73,8 @@ class NavigationBar extends StatelessWidget {
             children: <Widget>[
               _NavBarItem('Fish'),
               SizedBox(
-                width:60,
+                width:100,
+                
               ),
                 _NavBarItem('About')
             ]
@@ -89,15 +95,13 @@ class _NavBarItem extends StatelessWidget{
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        Navigator.push(
-          context,
-        MaterialPageRoute(builder: (context) => const FishStock()),
-        );
+        Navigator.pushNamed(context, title);
       },
-    child: new Text(
-      title,
-      style: TextStyle(fontSize: 18),
-      )
+    
+      child: new Text(//can have a child in each widget, see weather or not in the documentation in the widgetbar
+        title,
+        style: TextStyle(fontSize: 18),
+      ),
     );
   }
 }
@@ -118,3 +122,5 @@ class CentredView extends StatelessWidget {
     );
   }
 }
+
+//scrollable
