@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:eashtonsfishies/loginPage.dart';
+import 'package:eashtonsfishies/pages/loginpage.dart';
 class FishPageLogin extends StatelessWidget {
   final String title;
-  const FishPageLogin(this.title);
+  const FishPageLogin(this.title, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
         Navigator.push(context,
-        MaterialPageRoute(builder:  (context) => const SecondRoute()),
+        MaterialPageRoute(builder:  (context) => const LoginScreen()),
         );
       },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+        decoration: BoxDecoration(
+            color: Colors.lightBlue.shade900,
+            borderRadius: BorderRadius.circular(0)),
         child: Text(
           title,
           style: TextStyle(
@@ -22,9 +25,6 @@ class FishPageLogin extends StatelessWidget {
             color: Colors.white,
           ),
         ),
-        decoration: BoxDecoration(
-            color: Colors.lightBlue.shade900,
-            borderRadius: BorderRadius.circular(0)),
       )
     );
   }

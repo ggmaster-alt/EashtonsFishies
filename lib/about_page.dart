@@ -1,4 +1,4 @@
-import 'package:eashtonsfishies/main.dart';
+import 'package:eashtonsfishies/pages/main.dart';
 import 'package:flutter/material.dart';
 
 

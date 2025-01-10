@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:eashtonsfishies/main.dart';
+import 'package:eashtonsfishies/pages/main.dart';
 
 class FishStock extends StatelessWidget {
   const FishStock({super.key});
+  
 
   @override
   Widget build(BuildContext context) {

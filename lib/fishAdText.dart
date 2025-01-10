@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 class fishAdText extends StatelessWidget {
-  const fishAdText({Key? key}) : super(key: key);
+  const fishAdText({super.key});
 
   @override
   Widget build(BuildContext context) {
