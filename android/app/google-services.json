@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "658791435452",
-    "project_id": "sample-firebase-ai-app-46c46",
-    "storage_bucket": "sample-firebase-ai-app-46c46.firebasestorage.app"
+    "project_number": "4318674495",
+    "project_id": "eashtonsfishies",
+    "storage_bucket": "eashtonsfishies.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:658791435452:android:fa28680af14669d4cdd4b9",
+        "mobilesdk_app_id": "1:4318674495:android:5da8624cee0c170489828a",
         "android_client_info": {
-          "package_name": "com.EashtonsFISHMONGERS.app"
+          "package_name": "com.EAshtonsFISHMONGERS.app"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyA7Fo50N1EQRAGONzgplD1vPYbi1Kp3KYc"
+          "current_key": "AIzaSyDPy9v8bkfemnm5tEePbOqSo_R_CUvYwJ8"
         }
       ],
       "services": {

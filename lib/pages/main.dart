@@ -1,33 +1,49 @@
-import 'package:eashtonsfishies/loginButton.dart';
-import 'package:eashtonsfishies/pages/productListPage.dart';
-import 'package:flutter/material.dart';
-import 'package:eashtonsfishies/fishAdText.dart';
-import '/about_page.dart';
-import 'package:eashtonsfishies/Product.dart';
-import 'package:eashtonsfishies/pages/basket.dart';
-void main() {
-  runApp(MyApp());
+import 'package:eashtonsfishies/pop/cart_provider.dart';
+import 'package:eashtonsfishies/pop/login_button.dart';//page
+import 'package:eashtonsfishies/pages/product_list_page.dart';//page
+import 'package:eashtonsfishies/pages/basket.dart';//page
+import 'package:provider/provider.dart';
+import 'about_page.dart';//page
+
+
+
+import 'package:eashtonsfishies/tables/product_information.dart';//table
+
+import 'package:flutter/material.dart';//resporitory
+import 'package:firebase_core/firebase_core.dart';//resporitory
+import 'package:eashtonsfishies/firebase/firebase_options.dart';// is in lib/firebase/firebase_options.dart
+
+
+import 'package:eashtonsfishies/pages/auth_page.dart';//part of the page
+import 'package:eashtonsfishies/pop/home_page_text.dart'; // part of the page
+
+const bool showDebuggedBanner = false;
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(
+    ChangeNotifierProvider(create: (context) => CartProvider(),
+    child: MyApp(),
+    ),  
+  );
 }
-const login = true;
+
+
 class MyApp extends StatelessWidget {
-  MyApp({super.key});
-  
-  // Sample list of products
-    final List<Product> products = [
-      Product(id: '1', name: 'Fish 1', image: 'assets/images/ashtonslogosml.png', price: 10.0),
-      Product(id: '2', name: 'Fish 2', image: 'assets/images/ashtonslogosml.png', price: 20.0),
-      Product(id: '3', name: 'Fish 3', image: 'assets/images/ashtonslogosml.png', price: 30.0),
-    ];
-  
+  const MyApp({super.key});
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: showDebuggedBanner,
       routes: {
         'Fish': (context) => ProductList(required, products: products),// clicks both bevcause of size.
         'About': (context) => AboutPage(),
         'basket': (context) => Basket(),
-        
+        'SignUp | Login': (context) => AuthGate(),
       },
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -51,9 +67,10 @@ class HomeView extends StatelessWidget {
         child: Column(
           children: <Widget>[
             NavigationBar(),
+            
             Expanded(
               child: Row(children: [
-                fishAdText(),
+                FishAdText(),
                 Expanded(
                   child: Center(
                     child: FishPageLogin('SignUp | Login')))
@@ -86,19 +103,15 @@ class NavigationBar extends StatelessWidget {
             children: <Widget>[
               _NavBarItem('Fish'),
               SizedBox(
-                width:100,
+                width:20,
               ),
               _NavBarItem('About'),
               SizedBox(
-                width:100,
+                width:20,
               ),
-              if (login == true) 
-                _NavBarItem('basket')
-              else 
-                _NavBarItem('SignUp | Login'),
-              
-            ]
-          )
+              _NavBarItem('SignUp | Login'),
+            ],
+          ),
         ]
       )
     );
