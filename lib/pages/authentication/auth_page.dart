@@ -1,8 +1,10 @@
-import 'package:eashtonsfishies/pages/logged_in_page.dart';
+import 'package:eashtonsfishies/pages/logged_in_page.dart'; // Ensure this import is correct
 import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
+import 'package:eashtonsfishies/pages/admin_page.dart'; // Ensure this import is correct
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+
 //returning a widget
 typedef HeaderBuilder = Widget Function(
  BuildContext context,
@@ -60,12 +62,9 @@ class AuthGate extends StatelessWidget {
               );
             },
           );
-        } /*else {
+        } else {
           return FutureBuilder<DocumentSnapshot>(
-            future: FirebaseFirestore.instance
-                .collection('users')
-                .doc(snapshot.data!.uid)
-                .get(),
+            future: _createOrUpdateUserDocument(snapshot.data!),
             builder: (context, userSnapshot) {
               if (userSnapshot.connectionState == ConnectionState.waiting) {
                 return CircularProgressIndicator();
@@ -74,7 +73,7 @@ class AuthGate extends StatelessWidget {
               } else if (userSnapshot.hasData) {
                 final userData = userSnapshot.data!.data() as Map<String, dynamic>;
                 final isAdmin = userData['isAdmin'] ?? false;
-                if (isAdmin) {
+                if (isAdmin == true) {
                   return AdminHomePage();
                 } else {
                   return HomeLogScreen();
@@ -83,10 +82,22 @@ class AuthGate extends StatelessWidget {
                 return Text('No user data found');
               }
             },
-          );
-        }*/
-        return HomeLogScreen();
+          );                                    
+        }
       },
     );
   }
-}
+
+  Future<DocumentSnapshot> _createOrUpdateUserDocument(User user) async {
+    final userDoc = FirebaseFirestore.instance.collection('users').doc(user.uid);
+
+    await userDoc.set({
+      'uid': user.uid,
+      'email': user.email,
+      'isAdmin': user.email == 'georgie.gow@icloud.com' ? true : false, // Set this based on your logic
+      'createdAt': FieldValue.serverTimestamp(),
+    }, SetOptions(merge: true));
+
+    return userDoc.get();
+  }
+} 

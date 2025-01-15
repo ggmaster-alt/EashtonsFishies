@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:eashtonsfishies/pop/cart_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:eashtonsfishies/invoices/invoice_page.dart';
+//import 'package:get/get.dart';
 // Import the CartProvider
 
 class Basket extends StatelessWidget {
@@ -9,7 +11,6 @@ class Basket extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cart = Provider.of<CartProvider>(context);
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Basket'),
@@ -28,7 +29,7 @@ class Basket extends StatelessWidget {
           Expanded(
             child: ListView.builder(
               itemCount: cart.items.length,
-              itemBuilder: (ctx, i) => CartItemWidget(
+              itemBuilder: (context, i) => CartItemWidget(
                 id: cart.items.values.toList()[i].id,
                 productId: cart.items.keys.toList()[i],
                 name: cart.items.values.toList()[i].name,
@@ -70,9 +71,10 @@ class Basket extends StatelessWidget {
           TextButton(
             onPressed: () async {
               // Handle checkout
-              
-              cart.clear();
-              Navigator.of(context).pop();
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => InvoicePage()),
+              );
             },
             child: Text('Yes'),
           ),
@@ -88,6 +90,7 @@ class CartItemWidget extends StatelessWidget {
     required this.name,
     required this.quantity,
     required this.price,
+    super.key,
   });
   final String id;
   final String productId;
@@ -126,10 +129,10 @@ just add more of the same item.
  */
                 icon: Icon(Icons.remove),
                 onPressed: () {
-                  if (quantity == 1) {
-                    cart.removeItem(productId);
+                  if (quantity > 1) {
+                    cart.removeSingleItem(productId);
                   } else {
-                    cart.removeItem(productId);//Solution to the error: you need to create a new table for basket items
+                    cart.removeItem(productId);
                   }
                 },
               ),

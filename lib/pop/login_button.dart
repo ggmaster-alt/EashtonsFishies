@@ -1,4 +1,4 @@
-import 'package:eashtonsfishies/pages/auth_page.dart';
+import 'package:eashtonsfishies/pages/authentication/auth_page.dart';
 import 'package:flutter/material.dart';
 class FishPageLogin extends StatelessWidget {
   final String title;

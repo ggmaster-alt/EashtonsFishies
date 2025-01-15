@@ -1,9 +1,11 @@
+import 'package:eashtonsfishies/firebase/authentication_respitory.dart';
 import 'package:eashtonsfishies/pop/cart_provider.dart';
 import 'package:eashtonsfishies/pop/login_button.dart';//page
 import 'package:eashtonsfishies/pages/product_list_page.dart';//page
 import 'package:eashtonsfishies/pages/basket.dart';//page
 import 'package:provider/provider.dart';
 import 'about_page.dart';//page
+import 'package:get/get.dart';//line 28 following coding with t 
 
 
 
@@ -14,7 +16,7 @@ import 'package:firebase_core/firebase_core.dart';//resporitory
 import 'package:eashtonsfishies/firebase/firebase_options.dart';// is in lib/firebase/firebase_options.dart
 
 
-import 'package:eashtonsfishies/pages/auth_page.dart';//part of the page
+import 'package:eashtonsfishies/pages/authentication/auth_page.dart';//part of the page
 import 'package:eashtonsfishies/pop/home_page_text.dart'; // part of the page
 
 const bool showDebuggedBanner = false;
@@ -23,7 +25,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
-  );
+  ).then((value) => Get.put(AuthenticationRespitory()));
   runApp(
     ChangeNotifierProvider(create: (context) => CartProvider(),
     child: MyApp(),
