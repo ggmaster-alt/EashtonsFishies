@@ -1,4 +1,5 @@
 import 'package:eashtonsfishies/firebase/authentication_respitory.dart';
+import 'package:eashtonsfishies/pages/admin_pages/user_view.dart';
 import 'package:eashtonsfishies/pop/cart_provider.dart';
 import 'package:eashtonsfishies/pop/login_button.dart';//page
 import 'package:eashtonsfishies/pages/product_list_page.dart';//page
@@ -6,7 +7,7 @@ import 'package:eashtonsfishies/pages/basket.dart';//page
 import 'package:provider/provider.dart';
 import 'about_page.dart';//page
 import 'package:get/get.dart';//line 28 following coding with t 
-
+import 'package:eashtonsfishies/pages/admin_pages/inventory_page.dart';//page
 
 
 import 'package:eashtonsfishies/tables/product_information.dart';//table
@@ -46,6 +47,8 @@ class MyApp extends StatelessWidget {
         'About': (context) => AboutPage(),
         'basket': (context) => Basket(),
         'SignUp | Login': (context) => AuthGate(),
+        'inventory': (context) => InventoryPage(),
+        'users': (context) => UserListPage(),
       },
       title: 'Flutter Demo',
       theme: ThemeData(
