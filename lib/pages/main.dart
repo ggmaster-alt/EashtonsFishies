@@ -1,16 +1,15 @@
 import 'package:eashtonsfishies/firebase/authentication_respitory.dart';
+import 'package:eashtonsfishies/pages/admin_pages/admin_page.dart';
 import 'package:eashtonsfishies/pages/admin_pages/user_view.dart';
 import 'package:eashtonsfishies/pop/cart_provider.dart';
 import 'package:eashtonsfishies/pop/login_button.dart';//page
-import 'package:eashtonsfishies/pages/product_list_page.dart';//page
-import 'package:eashtonsfishies/pages/basket.dart';//page
+import 'package:eashtonsfishies/pages/user_pages/product_list_page.dart';//page
+import 'package:eashtonsfishies/pages/user_pages/basket.dart';//page
 import 'package:provider/provider.dart';
-import 'about_page.dart';//page
+import 'user_pages/about_page.dart';//page
 import 'package:get/get.dart';//line 28 following coding with t 
 import 'package:eashtonsfishies/pages/admin_pages/inventory_page.dart';//page
 
-
-import 'package:eashtonsfishies/tables/product_information.dart';//table
 
 import 'package:flutter/material.dart';//resporitory
 import 'package:firebase_core/firebase_core.dart';//resporitory
@@ -43,12 +42,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: showDebuggedBanner,
       routes: {
-        'Fish': (context) => ProductList(required, products: products),// clicks both bevcause of size.
+        'Fish': (context) => ProductList(),// clicks both bevcause of size.
         'About': (context) => AboutPage(),
         'basket': (context) => Basket(),
         'SignUp | Login': (context) => AuthGate(),
         'inventory': (context) => InventoryPage(),
         'users': (context) => UserListPage(),
+        'admin': (context) => AdminHomePage(),
       },
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -69,24 +69,65 @@ class HomeView extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.lightBlue.shade50,
       body: CentredView(
-        child: Column(
-          children: <Widget>[
-            NavigationBar(),
-            
-            Expanded(
-              child: Row(children: [
-                FishAdText(),
-                Expanded(
-                  child: Center(
-                    child: FishPageLogin('SignUp | Login')))
-              ]),
-            ),
-          ],
-        ),
+        child: ScrollState(),
       )
     );
   }
 }
+class ScrollState extends StatefulWidget {
+  const ScrollState({super.key});
+
+  @override
+  ScrollableSection createState() => ScrollableSection();
+}
+
+class ScrollableSection extends State<ScrollState> {
+  //final ScrollController _scrollController = ScrollController();
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      //controller: _scrollController,
+      children: <Widget>[
+        NavigationBar(),
+        Row(
+          children: <Widget>[
+            FishAdText(),
+            FishPageLogin('SignUp | Login'),
+          ],
+        ),
+        SizedBox(
+          height: 100,
+        ),
+        Row(
+          children: <Widget>[
+            FishAdText(),
+            FishPageLogin('SignUp | Login'),
+          ],
+        ),
+        SizedBox(
+          height: 100,
+        ),
+        Row(
+          children: <Widget>[
+            FishAdText(),
+            FishPageLogin('SignUp | Login'),
+          ],
+        ),
+        SizedBox(
+          height: 100,
+        ),
+        Row(
+          children: <Widget>[
+            FishAdText(),
+            FishPageLogin('SignUp | Login'),
+          ],
+        ),
+        ],
+    );
+  }
+}
+
+
 
 class NavigationBar extends StatelessWidget {
   const NavigationBar({super.key});

@@ -1,4 +1,4 @@
-import 'package:eashtonsfishies/pages/logged_in_page.dart'; // Ensure this import is correct
+import 'package:eashtonsfishies/pages/user_pages/logged_in_page.dart'; // Ensure this import is correct
 import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:eashtonsfishies/pages/admin_pages/admin_page.dart'; // Ensure this import is correct
@@ -98,20 +98,10 @@ class AuthGate extends StatelessWidget {
       await userDoc.set({
       'uid': user.uid,
       'email': user.email,
-      'isAdmin': "false", // Set this based on your logic
+      'isAdmin': false, // Set this based on your logic
       'createdAt': FieldValue.serverTimestamp(),
     }, SetOptions(merge: true));
-
-
-    /*await userDoc.set({
-      'uid': user.uid,
-      'email': user.email,
-      'isAdmin': user.email == 'georgie.gow@icloud.com' ? true : false, // Set this based on your logic
-      'createdAt': FieldValue.serverTimestamp(),
-    }, SetOptions(merge: true));*/
-
     return userDoc.get();
-    
     }
   } 
 }

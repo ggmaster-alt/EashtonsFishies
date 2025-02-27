@@ -4,20 +4,20 @@ import 'package:eashtonsfishies/pop/cart_provider.dart';
 import 'package:provider/provider.dart';
 
 class FlipBox extends StatelessWidget {
-  final String id;
+  final String description;
   final String name;
   final double price;
-  final String frontImage;
-  final String backText;
+  final String frontImage;//this will cause error
+  final String backText;//this will cause error
 
   const FlipBox({
     super.key,
-    required this.id,
+    required this.description,
     required this.frontImage,
     required this.backText,
     required this.name,
     required this.price,
-  });
+  }); 
 
 
   @override
@@ -27,7 +27,7 @@ class FlipBox extends StatelessWidget {
       front: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(frontImage),
+            image: NetworkImage(frontImage),//this will cause error
             fit: BoxFit.cover,
           ),
           borderRadius: BorderRadius.circular(8.0),
@@ -50,7 +50,7 @@ class FlipBox extends StatelessWidget {
           ElevatedButton(
             onPressed: () {
               // Add to cart
-              Provider.of<CartProvider>(context, listen: false).addItem(id, price, name);
+              Provider.of<CartProvider>(context, listen: false).addItem(description, price, name);
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text('$name added to cart'),

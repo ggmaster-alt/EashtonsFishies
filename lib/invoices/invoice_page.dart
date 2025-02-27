@@ -1,5 +1,5 @@
 
-import 'package:eashtonsfishies/pages/logged_in_page.dart';
+import 'package:eashtonsfishies/pages/user_pages/logged_in_page.dart';
 import 'package:eashtonsfishies/pop/cart_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
