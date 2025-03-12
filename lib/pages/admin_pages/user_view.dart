@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 Future<List<Map<String, dynamic>>> fetchUsers() async {
-  QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('users').get();
-  return querySnapshot.docs.map((doc) => doc.data() as Map<String, dynamic>).toList();
+  QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('users').get(); // tells the path of the data in firestore.
+  return querySnapshot.docs.map((doc) => doc.data() as Map<String, dynamic>).toList(); // maps user data as directory or relational table
 }
 
 
 class UserListPage extends StatefulWidget {
   const UserListPage({super.key});
   @override
-  _UserListPageState createState() => _UserListPageState();
+  UserListPageState createState() => UserListPageState();
 }
 
-class _UserListPageState extends State<UserListPage> {
+class UserListPageState extends State<UserListPage> {
   Future<List<Map<String, dynamic>>> fetchUsers() async {
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('users').get();
     return querySnapshot.docs.map((doc) => doc.data() as Map<String, dynamic>).toList();
@@ -48,7 +48,7 @@ class _UserListPageState extends State<UserListPage> {
             return Center(child: Text('No users found'));
           } else {
             List<Map<String, dynamic>> users = snapshot.data!;
-            return ListView.builder(
+            return ListView.builder(// is a builder so will display a listview layout for user information
               itemCount: users.length,
               itemBuilder: (context, index) {
                 Map<String, dynamic> user = users[index];

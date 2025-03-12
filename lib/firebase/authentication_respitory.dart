@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+// for checking user authentication
+class AuthenticationRepository extends GetxController{
+  static AuthenticationRepository get instance => Get.find(); // part of searching, this part is the holder of what it is searching for
 
-class AuthenticationRespitory extends GetxController{
-  static AuthenticationRespitory get instance => Get.find();
+  final _auth = FirebaseAuth.instance; // looks for users
 
-  final _auth = FirebaseAuth.instance;
-
-  User? get user => _auth.currentUser;
+  User? get user => _auth.currentUser; // looks at current user and gets uid
 
 
   bool get isAuthenticated => _auth.currentUser != null;

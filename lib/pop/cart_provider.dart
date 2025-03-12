@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:eashtonsfishies/tables/cart.dart';
-
+// problem reloades whole page could be a problem wioth notify listeners.
 class CartProvider with ChangeNotifier {
   Map<String, CartItem> _items = {};
 
@@ -42,7 +42,7 @@ class CartProvider with ChangeNotifier {
         ),
       );
     }
-    notifyListeners();
+    //notifyListeners();
   }
 
   void removeItem(String productId) {
@@ -73,6 +73,6 @@ class CartProvider with ChangeNotifier {
     } else {
       _items.remove(productId);
     }
-    notifyListeners();
+    //notifyListeners();
   }
 }

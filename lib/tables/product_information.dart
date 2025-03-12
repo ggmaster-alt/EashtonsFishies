@@ -7,13 +7,15 @@ class Product {
   final String description;
   final String image;
   final double price;
+  final int stock;
 
   Product({
     required this.id,
     required this.name, 
     required this.description, 
     required this.image, 
-    required this.price
+    required this.price,
+    required this.stock,
   });
 
   // You can add more properties and methods as needed
@@ -28,6 +30,7 @@ class Product {
       description: data['description'] ?? '',
       image: data['image'] ?? '',
       price: data['price']?.toDouble() ?? 0.0,
+      stock: data['stock'] ?? 0,
     );
   }
 }
@@ -44,5 +47,6 @@ Future<void> addProduct(context, String name, String description, double price, 
       'description': description,
       'price': price,
       'image': imageUrl,
+      'stock': 0,
     });
   }

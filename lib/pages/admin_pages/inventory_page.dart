@@ -1,133 +1,126 @@
-import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:eashtonsfishies/pop/image_uploader.dart';
-import 'package:eashtonsfishies/tables/product_information.dart';
-import 'package:eashtonsfishies/pop/price_text_field.dart';
-import 'dart:html' as html;
+import 'package:flutter/material.dart';//main import
+import 'package:cloud_firestore/cloud_firestore.dart';//cloud
+import 'package:eashtonsfishies/tables/product_information.dart';//data tables
+import 'package:eashtonsfishies/pop/image_uploader.dart';//
+import 'package:flutter/services.dart';
+
 class InventoryPage extends StatefulWidget {
   const InventoryPage({super.key});
 
   @override
-  _InventoryPageState createState() => _InventoryPageState();
+  InventoryPageState createState() => InventoryPageState();
 }
   
 
-class _InventoryPageState extends State<InventoryPage> {
+class InventoryPageState extends State<InventoryPage> {
+  //holds data for this widget
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
-  final TextEditingController _priceController = TextEditingController();
   String? imageUrl;
-  
-  void dispose() {
-    _nameController.dispose();
-    _descriptionController.dispose();
-    _priceController.dispose();
-    super.dispose();
-  }
-  Future<html.File> getImageFromWeb() async {
-    final input = html.InputElement(type: 'file')..accept = 'image/*';
-    input.click();
+  final TextEditingController _priceController = TextEditingController();
+  final TextEditingController _stockController = TextEditingController();
 
-    await input.onChange.firstWhere((_) => input.files!.length == 1);
-    final file = input.files!.first;
-    final downloadUrl = await uploadImageWeb(file);
-    if (downloadUrl != null) {
-      setState(() {
-        imageUrl = downloadUrl;
-      });
-    }
-    return file;
-  }
-  
-  void _showAddProductDialog(BuildContext context) {
-    showDialog(
+  Future<void> _showAddProductDialog(BuildContext context) async {
+    showDialog(// builds new context on top of page
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Checkout'),
-        content: Text('add product?'),
+        title: Text('Add Product'),
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: TextField(
+                  controller: _nameController,
+                  decoration: InputDecoration(
+                    hintText: 'name',
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: TextField(
+                  controller: _descriptionController,
+                  decoration: InputDecoration(
+                    hintText: 'description',
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: TextField(
+                  controller: _priceController,
+                  decoration: InputDecoration(
+                    hintText: 'price',
+                  ),
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp(r'[0-9.]*')),
+                  ],
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () async {//calls image drive function
+                  final downloadUrl = await pickAndUploadImage();
+                  if (downloadUrl != null) {
+                    setState(() {
+                      imageUrl = downloadUrl;
+                    });
+                  }
+                },
+                child: Icon(Icons.upload_file),
+              ),
+              if (imageUrl != null && imageUrl!.isNotEmpty) ...[
+                SizedBox(height: 20),
+                Image.network(imageUrl!),
+              ] else ...[
+                Text('No image selected'),
+              ],
+            ],
+          ),
+        ),
         actions: [
-          TextField(
-            controller: _nameController,
-            decoration: InputDecoration(
-              hintText: 'name',
-            ),
-          ),
-          TextField(
-            controller: _descriptionController,
-            decoration: InputDecoration(
-              hintText: 'description',
-            ),
-          ),
-          PriceTextField(),
-          FloatingActionButton(
-            onPressed: getImageFromWeb, 
-            child: Icon(Icons.add_a_photo)),
-          //put image from disk here...
-          //
-          //
-          //
-          //
-          //
-          //
-          TextButton(
+          ElevatedButton(
             onPressed: () {
               Navigator.of(context).pop();
             },
-          
-          child: Text('Cancel'),
+            child: Text('Cancel'),
           ),
           ElevatedButton(
-            onPressed: () async {
+            onPressed: () async { //errors '' is the string sent
               if (_nameController.text.isEmpty) {
                 _showErrorDialog(context, 'Forgot to enter name');
               } else if (_descriptionController.text.isEmpty) {
                 _showErrorDialog(context, 'Forgot to enter description');
               } else if (_priceController.text.isEmpty) {
                 _showErrorDialog(context, 'Forgot to enter price');
-              } else if (imageUrl == null) {
+              } else if (imageUrl == null || imageUrl!.isEmpty) {
                 _showErrorDialog(context, 'Forgot to upload image');
               } else {
-                final file = await getImageFromWeb();
-                if (imageUrl != null) {
-                  await addProduct(
-                    context,
-                    _nameController.text,
-                    _descriptionController.text,
-                    double.parse(_priceController.text),
-                    imageUrl!
-                  );
-                  _nameController.clear();
-                  _descriptionController.clear();
-                  _priceController.clear();
-                  setState(() {});
-                  Navigator.of(context).pop();
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text('Product Added'),
-                        content: Text('Product added successfully!'),
-                        actions: <Widget>[
-                          TextButton(
-                            child: Text('OK'),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                }
+                await addProduct(
+                  context,
+                  _nameController.text,
+                  _descriptionController.text,
+                  double.parse(_priceController.text),
+                  imageUrl!,
+                );
+                _nameController.clear();
+                _descriptionController.clear();
+                _priceController.clear();
+                imageUrl = null;
+              }
+              if (mounted) {
+                Navigator.of(context).pop();
               }
             },
-            child: Text('Add'),
+            child: Text('Add to Database'),
           ),
         ],
       ),
     );
   }
-
+  
+  //stops the user entering incorrect data
   void _showErrorDialog(BuildContext context, String message) {
     showDialog(
       context: context,
@@ -146,6 +139,7 @@ class _InventoryPageState extends State<InventoryPage> {
     );
   }
   @override
+  //main build
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -159,28 +153,51 @@ class _InventoryPageState extends State<InventoryPage> {
       ),
       body: Column(
         children: [
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: () {
-                if (_priceController.text.isEmpty) {
-                  return _showAddProductDialog(context);
-                } else if (_nameController.text.isEmpty) {
-                  return _showAddProductDialog(context);
-                } else if (_descriptionController.text.isEmpty) {
-                  return _showAddProductDialog(context);
-                } else if (imageUrl == null) {
-                  return _showAddProductDialog(context);
-                } 
-              },
-              child: Text('Add Product'),
-            ),
+        SizedBox(
+          width: double.infinity,
+          child: Row(
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  _showAddProductDialog(context);
+                },
+                child: Text('Add Product'),
+              ),
+              SizedBox(width: 20),
+              ElevatedButton(
+                onPressed: () {
+                  AlertDialog(actions: [
+                    TextField(
+                      controller: _nameController,
+                      decoration: InputDecoration(
+                        hintText: 'name',
+                      ),
+                    ),
+                    TextField(
+                      controller: _stockController,
+                      decoration: InputDecoration(
+                        hintText: 'stock',
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        updateProductStockByName(_nameController.text, int.parse(_stockController.text));
+                        Navigator.of(context).pop();
+                      },
+                      child: Text('OK'),
+                    ),
+                  ],);
+                },
+                child: Text('edit Stock'),
+              )
+            ],
           ),
+        ),
           Expanded(
             child:  FutureBuilder<List<Product>>(
               future: fetchProducts(),
               builder: (context, AsyncSnapshot<List<Product>> snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
+                if (snapshot.connectionState == ConnectionState.waiting) {// checks snapshot and can respond to all errors on db side and well as network errors
                   return Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
                   return Center(child: CircularProgressIndicator());
@@ -222,4 +239,28 @@ class _InventoryPageState extends State<InventoryPage> {
       ),
     );
   }
+  // is the function for editing stock on admin side.
+  Future<void> updateProductStockByName(String name, int newStock) async {
+  try {
+    // Query for document with matching name
+    final querySnapshot = await FirebaseFirestore.instance
+        .collection('products')
+        .where('name', isEqualTo: name)
+        .get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      // Update first matching document
+      final docId = querySnapshot.docs.first.id;
+      await FirebaseFirestore.instance
+          .collection('products')
+          .doc(docId)
+          .update({'stock': newStock});
+    } else {
+      throw Exception('Product not found with name: $name');
+    }
+  } catch (e) {
+    print('Error updating stock: $e');
+    rethrow;
+  }
+}
 }

@@ -28,12 +28,76 @@
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
-    ],
-    "rewrites": [
-      {
-        "source": "**",
-        "destination": "/index.html"
-      }
     ]
-  }
+  },
+  "cors":[
+    {
+      "origin": [
+        "https://eashtonsfishies.web.app",
+        "https://www.eashtonsfishies.web.app"
+      ],
+      "method": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE"
+      ],
+      "response": [
+        "content-type",
+        "date",
+        "x-content-type-options",
+        "x-frame-options",
+        "content-length",
+        "server",
+        "connection",
+        "x-xss-protection",
+        "access-control-allow-origin",
+        "access-control-allow-credentials",
+        "cache-control",
+        "vary",
+        "access-control-allow-methods",
+        "access-control-allow-headers",
+        "access-control-max-age",
+        "strict-transport-security",
+        "x-dns-prefetch-control",
+        "expect-ct",
+        "x-download-options",
+        "content-disposition",
+        "x-permitted-cross-domain-policies",
+        "referrer-policy",
+        "feature-policy",
+        "cross-origin-resource-policy",
+        "content-security-policy",
+        "x-ua-compatible",
+        "x-robots-tag",
+        "x-content-duration",
+        "x-content-security-policy-report-only",
+        "x-webkit-csp",
+        "x-content-security-policy-report-only",
+        "x-ua-compatible",
+        "x-robots-tag",
+        "x-content-duration",
+        "x-content-security-policy-report-only",
+        "x-webkit-csp",
+        "x-content-security-policy-report-only"
+      ],
+      "maxAgeSeconds": 3600
+    }
+  ],
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ],
+      "predeploy": [
+        "npm --prefix \"$RESOURCE_DIR\" run lint"
+      ]
+    }
+  ]
 }

@@ -54,8 +54,6 @@ class NavigationBar extends StatelessWidget {
               SizedBox(
                 width:20,
               ),
-              
-                // automaticallyImplyLeading: false, this is used to remove the back button
               _NavBarItem('users'),
               SizedBox(
                 width:20,
@@ -65,16 +63,16 @@ class NavigationBar extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute<ProfileScreen>(
+                    MaterialPageRoute(
                       builder: (context) => ProfileScreen(
-                        actions: [
-                          SignedOutAction((context) {
-                            Navigator.of(context).pop();
-                          }),
-                        ],  
+                        appBar: AppBar(                       
+                          actions: [
+                            
+                          ],
+                        ),
                       ),
                     ),
-                  );
+                  ); 
                 },
               ),
               SizedBox(

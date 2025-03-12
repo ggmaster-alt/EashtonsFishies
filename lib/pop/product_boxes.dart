@@ -45,21 +45,36 @@ class FlipBox extends StatelessWidget {
               fontSize: 20.0,
               fontWeight: FontWeight.bold,
             ),
-          ),
-          SizedBox(height: 10),
-          ElevatedButton(
-            onPressed: () {
-              // Add to cart
-              Provider.of<CartProvider>(context, listen: false).addItem(description, price, name);
+            ),
+            SizedBox(height: 10),
+            Consumer<CartProvider>(
+              builder: (context, cart, child) => Text(
+                'In Cart: ${cart.items[description]?.quantity ?? 0}',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () { // Add to cart
+                Provider.of<CartProvider>(context, listen: false).addItem(description, price, name);
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text('$name added to cart'),
                     duration: Duration(seconds: 2),
                   ),
                 );
-              
-            },
-            child: const Text('Add to Cart'),)
+              }, child: const Text('Add Item'),
+            ),
+            ElevatedButton(
+              onPressed: (){
+                Provider.of<CartProvider>(context, listen: false).removeSingleItem(description);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('One $name removed from cart'),
+                    duration: Duration(seconds: 2),
+                  ),
+                );
+              }, child: const Text('Remove Item'),
+            ),
           ],
         ),
       )

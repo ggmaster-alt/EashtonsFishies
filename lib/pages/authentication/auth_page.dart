@@ -5,7 +5,7 @@ import 'package:eashtonsfishies/pages/admin_pages/admin_page.dart'; // Ensure th
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-//returning a widget
+//builds a standard border.
 typedef HeaderBuilder = Widget Function(
  BuildContext context,
  BoxConstraints constraints,
@@ -17,10 +17,12 @@ class AuthGate extends StatelessWidget {
   const AuthGate({super.key});
 
   @override
+  // IMPORTANT NOTE
+  // this is asynconous and 
   Widget build(BuildContext context) {
     return StreamBuilder<User?>(
-      stream: FirebaseAuth.instance.authStateChanges(),
-      builder: (context, snapshot) {
+      stream: FirebaseAuth.instance.authStateChanges(), // A stack of snapshots of current variables, tells firebase if its a signin or sign out
+      builder: (context, snapshot) { // look at docs; 'builder: ' is complex and very specific
         if (!snapshot.hasData) {
           return SignInScreen(//sign in screen firebase widget
             providers: [
@@ -35,7 +37,7 @@ class AuthGate extends StatelessWidget {
                 ),
               );
             },
-            subtitleBuilder: (context, action) {
+            subtitleBuilder: (context, action) { // small message under header
               return Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: action == AuthAction.signIn // clickable text if you want to change in/up
@@ -43,7 +45,7 @@ class AuthGate extends StatelessWidget {
                   : const Text('Welcome to E.Ashtons FISHMONGERS, please sign up!'),
               );
             },
-            footerBuilder: (context, action) {//need to comment on.
+            footerBuilder: (context, action) { // goes at the bottom
               return const Padding(
                 padding: EdgeInsets.only(top: 16),
                 child: Text(
@@ -52,7 +54,7 @@ class AuthGate extends StatelessWidget {
                 ),
               );
             },
-            sideBuilder: (context, shrinkOffset) {
+            sideBuilder: (context, shrinkOffset) { // builds to left
               return Padding(
                 padding: const EdgeInsets.all(20),
                 child: AspectRatio(
@@ -62,7 +64,7 @@ class AuthGate extends StatelessWidget {
               );
             },
           );
-        } else {
+        } else { // this process will go through once deatils have been entered.
           return FutureBuilder<DocumentSnapshot>(
             future: _createOrUpdateUserDocument(snapshot.data!),
             builder: (context, userSnapshot) {
@@ -82,14 +84,15 @@ class AuthGate extends StatelessWidget {
                 return Text('No user data found');
               }
             },
-          );                                    
+          );
         }
       },
     );
   }
-
+  // collects information that is processed in firebase authentication and sends user information in admin user page
+  // TO NOTE: this is security problem,'isadmin'. REMOVE
   Future<DocumentSnapshot> _createOrUpdateUserDocument(User user) async {
-    final userDoc = FirebaseFirestore.instance.collection('users').doc(user.uid);
+    final userDoc = FirebaseFirestore.instance.collection('users').doc(user.uid);//creates a file path or follows one if it already exists.
 
     final docSnapshot = await userDoc.get();
     if (docSnapshot.exists) {
