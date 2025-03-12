@@ -1,0 +1,172 @@
+1. **Modify `pubspec.yaml`**:
+   ```yaml
+   dependencies:
+     flutter:
+       sdk: flutter
+     firebase_core: latest_version
+     firebase_storage: latest_version
+     firebase_firestore: latest_version
+     html: ^0.15.0+4  # For web-specific functionality, if needed
+   ```
+
+2. **Import Firestore**:
+   ```dart
+   import 'package:firebase_core/firebase_core.dart';
+   import 'package:firebase_storage/firebase_storage.dart';
+   import 'package:firebase_firestore/firebase_firestore.dart';
+   import 'dart:html' as html;
+   import 'package:image_picker/image_picker.dart';  // For mobile image picker
+   import 'dart:io' show File;  // For handling files on mobile
+   ```
+
+3. **Firestore Methods**:
+   ```dart
+   FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+   Future<void> addImageData(String name, String id, String imageUrl) async {
+     await firestore.collection('images').add({
+       'name': name,
+       'id': id,
+       'imageUrl': imageUrl,
+     });
+   }
+
+   Stream<QuerySnapshot<Map<String, dynamic>>> getImageData() {
+     return firestore.collection('images').snapshots();
+   }
+   ```
+
+4. **Modify Image Picker and Upload Functions**:
+   - For mobile:
+     ```dart
+     Future<XFile?> getImageFromGallery() async {
+       final picker = ImagePicker();
+       final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+       return pickedFile;
+     }
+
+     Future<String?> uploadImage(XFile file, String name, String id) async {
+       try {
+         Reference ref = FirebaseStorage.instance.ref().child('images/${DateTime.now()}.jpg');
+         UploadTask uploadTask = ref.putFile(File(file.path));
+         await uploadTask.whenComplete(() => null);
+         String downloadURL = await ref.getDownloadURL();
+         print('Download Link: $downloadURL');
+         addImageData(name, id, downloadURL);  // Add metadata to Firestore
+         return downloadURL;
+       } catch (e) {
+         print(e);
+       }
+     }
+     ```
+
+   - For web:
+     ```dart
+     Future<html.File> getImageFromWeb() async {
+       final input = html.InputElement(type: 'file')..accept = 'image/*';
+       input.click();
+       await input.onChange.firstWhere((_) => input.files!.length == 1);
+       return input.files!.first;
+     }
+
+     Future<String?> uploadImageWeb(html.File file, String name, String id) async {
+       try {
+         Reference ref = FirebaseStorage.instance.ref().child('images/${DateTime.now()}.jpg');
+         UploadTask uploadTask = ref.putData(file);
+         await uploadTask.whenComplete(() => null);
+         String downloadURL = await ref.getDownloadURL();
+         print('Download Link: $downloadURL');
+         addImageData(name, id, downloadURL);  // Add metadata to Firestore
+         return downloadURL;
+       } catch (e) {
+         print(e);
+       }
+     }
+     ```
+
+5. **Modify the Main Widget**:
+   ```dart
+   void main() async {
+     WidgetsFlutterBinding.ensureInitialized();
+     await Firebase.initializeApp();
+     runApp(MyApp());
+   }
+
+   class MyApp extends StatelessWidget {
+     @override
+     Widget build(BuildContext context) {
+       return MaterialApp(
+         home: ImageDisplay(),
+       );
+     }
+   }
+
+   class ImageDisplay extends StatefulWidget {
+     @override
+     _ImageDisplayState createState() => _ImageDisplayState();
+   }
+
+   class _ImageDisplayState extends State<ImageDisplay> {
+     final TextEditingController nameController = TextEditingController();
+     final TextEditingController idController = TextEditingController();
+     String? imageUrl;
+
+     Future<void> selectAndUploadImage() async {
+       if (kIsWeb) {
+         html.File file = await getImageFromWeb();
+         String? url = await uploadImageWeb(file, nameController.text, idController.text);
+         setState(() => imageUrl = url);
+       } else {
+         XFile? image = await getImageFromGallery();
+         if (image != null) {
+           String? url = await uploadImage(image, nameController.text, idController.text);
+           setState(() => imageUrl = url);
+         }
+       }
+     }
+
+     @override
+     Widget build(BuildContext context) {
+       return Scaffold(
+         appBar: AppBar(title: Text('Image Upload with Metadata')),
+         body: Padding(
+           padding: const EdgeInsets.all(16.0),
+           child: Column(
+             children: [
+               TextField(
+                 controller: nameController,
+                 decoration: InputDecoration(labelText: 'Name'),
+               ),
+               TextField(
+                 controller: idController,
+                 decoration: InputDecoration(labelText: 'ID'),
+               ),
+               ElevatedButton(onPressed: selectAndUploadImage, child: Text('Upload Image')),
+               if (imageUrl != null)
+                 Column(
+                   children: [
+                     SizedBox(height: 20),
+                     Text('Name: ${nameController.text}'),
+                     Text('ID: ${idController.text}'),
+                     Image.network(imageUrl!),
+                   ],
+                 ),
+             ],
+           ),
+         ),
+       );
+     }
+   }
+   ```
+
+### Explanation:
+- **Firestore Methods**: `addImageData` saves the metadata to Firestore, and `getImageData` 
+retrieves it.
+- **Image Picker and Upload Functions**: Both mobile and web functions are updated to include user 
+input for name and ID, and they save the metadata to Firestore along with the image URL.
+- **Main Widget**: The UI includes text fields for name and ID, a button to upload the image, and 
+displays the uploaded metadata above the image.
+
+This example provides a complete solution for uploading images with metadata using Firebase 
+Storage and Firestore.
+
