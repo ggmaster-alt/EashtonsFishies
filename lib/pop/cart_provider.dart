@@ -42,7 +42,7 @@ class CartProvider with ChangeNotifier {
         ),
       );
     }
-    //notifyListeners();
+    notifyListeners();
   }
 
   void removeItem(String productId) {
@@ -73,6 +73,6 @@ class CartProvider with ChangeNotifier {
     } else {
       _items.remove(productId);
     }
-    //notifyListeners();
+    notifyListeners();
   }
 }

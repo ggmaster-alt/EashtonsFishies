@@ -2,6 +2,7 @@ import 'package:eashtonsfishies/firebase/authentication_respitory.dart'; //for a
 import 'package:eashtonsfishies/invoices/invoice_page.dart'; //page
 import 'package:eashtonsfishies/pages/admin_pages/admin_page.dart'; //page
 import 'package:eashtonsfishies/pages/admin_pages/user_view.dart'; //page
+import 'package:eashtonsfishies/pages/user_pages/logged_in_page.dart';
 import 'package:eashtonsfishies/pop/cart_provider.dart';
 import 'package:eashtonsfishies/pop/login_button.dart'; //page
 import 'package:eashtonsfishies/pages/user_pages/product_list_page.dart'; //page
@@ -60,6 +61,7 @@ class MyApp extends StatelessWidget {
           'users': (context) => UserListPage(),
           'admin': (context) => AdminHomePage(),
           'invoices': (context) => InvoicePage(),
+          'userPage': (context) => HomeLogScreen(),
         },
         title: 'Flutter Demo',
         theme: ThemeData(

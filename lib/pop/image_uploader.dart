@@ -1,7 +1,6 @@
 import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:html' as html;
 //import 'package:file_picker/file_picker.dart';
-//import 'dart:html' as html;
 
 /*Future<String?> pickAndUploadImage() async {
   FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.image);

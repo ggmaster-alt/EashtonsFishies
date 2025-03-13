@@ -107,7 +107,7 @@ Future<List<Map<String, dynamic>>> fetchUserInvoices() async {
         .orderBy('timestamp', descending: true)
         .get();
         
-    return querySnapshot.docs.map((doc) => doc.data() as Map<String, dynamic>).toList();
+    return querySnapshot.docs.map((doc) => doc.data()).toList();
   }
 
   void showInvoicesDialog(BuildContext context) {
@@ -116,7 +116,7 @@ Future<List<Map<String, dynamic>>> fetchUserInvoices() async {
       builder: (context) {
         return AlertDialog(
           title: Text('My Orders'),
-          content: Container(
+          content: SizedBox(
             width: double.maxFinite,
             child: FutureBuilder<List<Map<String, dynamic>>>(
               future: fetchUserInvoices(),

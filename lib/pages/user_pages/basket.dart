@@ -1,3 +1,4 @@
+import 'package:eashtonsfishies/invoices/invoice_page.dart';
 import 'package:flutter/material.dart';
 import 'package:eashtonsfishies/pop/cart_provider.dart';
 import 'package:provider/provider.dart';
@@ -75,7 +76,7 @@ class Basket extends StatelessWidget {
             onPressed: () {
               print('Checkout');
               // Handle checkout
-              Navigator.pushNamed(context, 'invoices');
+              InvoicePage();
               
             },
             child: Text('Yes'),

@@ -110,6 +110,7 @@ class InventoryPageState extends State<InventoryPage> {
                 imageUrl = null;
               }
               if (mounted) {
+                // ignore: use_build_context_synchronously
                 Navigator.of(context).pop();
               }
             },
@@ -259,7 +260,7 @@ class InventoryPageState extends State<InventoryPage> {
       throw Exception('Product not found with name: $name');
     }
   } catch (e) {
-    print('Error updating stock: $e');
+    Text('Error updating stock: $e');
     rethrow;
   }
 }
