@@ -52,10 +52,10 @@ class MyApp extends StatelessWidget {
         // main build of app this is the top state in the flutter tree
         debugShowCheckedModeBanner: showDebuggedBanner,
         routes: {
-          // custom controll of flow in the app
-          'Fish': (context) => ProductList(), // clicks both bevcause of size.
+          // custom control of flow in the app
+          'Fish': (context) => ProductList(), // clicks both because of size.
           'About': (context) => AboutPage(),
-          'basket': (context) => Basket(),
+          'basket': (context) => FishBasket(),
           'SignUp | Login': (context) => AuthGate(),
           'inventory': (context) => InventoryPage(),
           'users': (context) => UserListPage(),

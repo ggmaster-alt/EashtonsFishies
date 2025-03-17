@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:eashtonsfishies/invoices/invoice_page.dart';
 import 'package:flutter/material.dart';
 import 'package:eashtonsfishies/pop/cart_provider.dart';
@@ -5,12 +7,44 @@ import 'package:provider/provider.dart';
 //import 'package:get/get.dart';
 // Import the CartProvider
 
-class Basket extends StatelessWidget {
-  const Basket({super.key});
+class FishBasket extends StatefulWidget {
+  const FishBasket({super.key});
 
+  @override
+  State<FishBasket> createState() => _BasketState();
+}
+
+class _BasketState extends State<FishBasket> {
   @override
   Widget build(BuildContext context) {
     final cart = Provider.of<CartProvider>(context);
+
+    Future<bool?> checkoutPopUp(BuildContext context, CartProvider cart) =>
+        showDialog<bool>( // Specify the return type <bool>
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('Checkout'),
+            content: const Text('Would you like to checkout?'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(false); // Return false (did not checkout)
+                },
+                child: const Text('No'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  print('Checkout');
+                  // Handle checkout here
+                  // ... any checkout logic here
+                  Navigator.of(context).pop(true); // Return true (checkout confirmed)
+                },
+                child: const Text('Yes'),
+              ),
+            ],
+          ),
+        );
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Basket'),
@@ -31,8 +65,9 @@ class Basket extends StatelessWidget {
               itemCount: cart.items.length,
               itemBuilder: (context, i) {
                 if (i>= cart.items.length){
-                  return SizedBox.shrink();
-                } return CartItemWidget(
+                  return const SizedBox.shrink();
+                }
+                return CartItemWidget(
                   id: cart.items.values.toList()[i].id,
                   productId: cart.items.keys.toList()[i],
                   name: cart.items.values.toList()[i].name,
@@ -42,16 +77,23 @@ class Basket extends StatelessWidget {
               },
             ),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Text(
             'Total: \$${cart.totalAmount.toStringAsFixed(2)}',
             style: TextStyle(fontSize: 20),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           ElevatedButton(
             onPressed: () {
               // Handle checkout
-              checkoutpopup(context, cart);
+              if (context.mounted) {
+                checkoutPopUp(context, cart).then((shouldCheckout) {
+                  if (shouldCheckout == true && context.mounted) {
+                    Navigator.pushNamed(context, 'invoices');
+                    log("Navigated to invoices");
+                  }
+                });
+              }
             },
             child: Text('Checkout'),
           ),
@@ -59,31 +101,6 @@ class Basket extends StatelessWidget {
       ),
     );
   }
-
-  Future<void> checkoutpopup(BuildContext context, CartProvider cart) => showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Checkout'),
-        content: Text('Would you like to checkout?'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: Text('No'),
-          ),
-          ElevatedButton(// causes recuresion error.
-            onPressed: () {
-              print('Checkout');
-              // Handle checkout
-              InvoicePage();
-              
-            },
-            child: Text('Yes'),
-          ),
-        ],
-      ),
-    );
 }
 
 class CartItemWidget extends StatelessWidget {

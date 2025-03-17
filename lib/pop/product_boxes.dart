@@ -42,7 +42,7 @@ class FlipBox extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[ 
             Text(backText, style: TextStyle(color: Colors.white,
-              fontSize: 20.0,
+              fontSize: 18.0,
               fontWeight: FontWeight.bold,
             ),
             ),
