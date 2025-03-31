@@ -1,7 +1,9 @@
+import 'package:eashtonsfishies/main.dart';
 import 'package:eashtonsfishies/pages/user_pages/profile_screen.dart';
 import 'package:eashtonsfishies/pop/loggedin_layout.dart';
 import 'package:flutter/material.dart';//resporitory//page
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 class HomeLogScreen extends StatelessWidget {
   const HomeLogScreen({super.key});
 
@@ -86,14 +88,18 @@ class NavigationBar extends StatelessWidget {
                           IconButton(
                             icon: Icon(Icons.paid_rounded),
                             onPressed: () async {
-                              AlertDialog(
-                                title: Text('cool back'),
-                                actions: <Widget>[
-                                  TextButton(
-                                    onPressed: () => showInvoicesDialog,
-                                    child: Text('back'),
-                                  ),
-                                ],
+                              if (!context.mounted) return;
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: Text('cool back'),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () => showInvoicesDialog,
+                                      child: Text('back'),
+                                    ),
+                                  ],
+                                ),
                               );
                             },
 
@@ -107,7 +113,21 @@ class NavigationBar extends StatelessWidget {
               SizedBox(
                 width:20,
               ),
-              SignOutButton(),
+              ElevatedButton(
+                child: Text('Sign Out'),
+                onPressed: () {
+                  FirebaseAuth auth = FirebaseAuth.instance;
+                  auth.signOut().then((res) {
+                    if (!context.mounted) return;{
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => HomeView()),
+                      );
+                    }
+                  });
+                },
+              ),
+              //SignOutButton(),
             ],
           ),
         ]

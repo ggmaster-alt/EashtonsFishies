@@ -1,9 +1,8 @@
-import 'package:eashtonsfishies/pages/user_pages/logged_in_page.dart';
 import 'package:eashtonsfishies/pop/cart_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:eashtonsfishies/invoices/invoice_page_database_function.dart';
-import 'package:flutter/services.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 //list for where is our town drop down
 const List<String> townList = <String>[
@@ -21,7 +20,7 @@ const List<String> townList = <String>[
 ];
 
 class InvoicePage extends StatefulWidget {
-  const InvoicePage({Key? key}) : super(key: key);
+  const InvoicePage({super.key});
 
   @override
   State<InvoicePage> createState() => _InvoicePageState();
@@ -157,27 +156,21 @@ class _InvoicePageState extends State<InvoicePage> {
                                     controller: _phonenumberController,
                                     decoration: InputDecoration(
                                         labelText: 'Phone number'),
-                                    inputFormatters: [
-                                      FilteringTextInputFormatter.allow(
-                                          RegExp(r'^[0-9]{11}$')), // formating will block user from entering incorrect data at each point
-                                    ],
+                                    //inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^[0-9]{11}$')), // formating will block user from entering incorrect data at each point],
                                   ),
                                   SizedBox(height: 10),
                                   TextField(
                                     controller: _postcodeController,
                                     decoration:
                                     InputDecoration(labelText: 'Postcode'),
-                                    inputFormatters: [
-                                      FilteringTextInputFormatter.allow(
-                                          RegExp(
-                                              r'^[A-Z]{1,2}[0-9]{1,2}[A-Z]? [0-9][A-Z]{2}$')),
-                                    ],
+                                    //inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^[A-Z]{1,2}[0-9]{1,2}[A-Z]? [0-9][A-Z]{2}$')),],
                                   ),
                                   SizedBox(height: 10),
                                   TextField(
                                     controller: _addressController,
                                     decoration:
                                     InputDecoration(labelText: 'Address'),
+                                    //inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^[0-9]{1,4} [A-Za-z ]{1,50}$')),],
                                   ),
                                   SizedBox(height: 10),
                                   DropdownButton<String>(
@@ -241,7 +234,6 @@ class InvoiceList extends StatelessWidget {
     required this.price,
     super.key,
   });
-
   @override
   Widget build(BuildContext context) {
     return Card(

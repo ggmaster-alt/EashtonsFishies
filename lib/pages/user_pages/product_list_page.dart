@@ -18,10 +18,6 @@ class ProductList extends StatefulWidget {
 }
 
 class ProductListState extends State<ProductList> {
-  Future<List<Product>> fetchProducts() async {
-    final querySnapshot = await FirebaseFirestore.instance.collection('products').get();
-    return querySnapshot.docs.map((doc) => Product.fromFirestore(doc)).toList();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,9 +44,9 @@ class ProductListState extends State<ProductList> {
               padding: EdgeInsets.all(16),
               gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                 maxCrossAxisExtent: 200,
-                childAspectRatio: 1.5,
+                childAspectRatio: 1.2,
                 crossAxisSpacing: 16,
-                mainAxisSpacing: 16,
+                mainAxisSpacing: 1,
               ),
               itemCount: products.length,
               itemBuilder: (context, index) {

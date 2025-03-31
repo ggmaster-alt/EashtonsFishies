@@ -46,7 +46,9 @@ class FlipBox extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
             ),
-            SizedBox(height: 10),
+            SizedBox(
+              height: 10
+            ),
             Consumer<CartProvider>(
               builder: (context, cart, child) => Text(
                 'In Cart: ${cart.items[description]?.quantity ?? 0}',
@@ -63,6 +65,9 @@ class FlipBox extends StatelessWidget {
                   ),
                 );
               }, child: const Text('Add Item'),
+            ),
+            SizedBox(
+              height: 10
             ),
             ElevatedButton(
               onPressed: (){
