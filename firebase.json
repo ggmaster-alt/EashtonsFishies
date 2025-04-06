@@ -99,5 +99,15 @@
         "npm --prefix \"$RESOURCE_DIR\" run lint"
       ]
     }
+  ],
+  "indexes": [
+    {
+      "collectionGroup": "invoices",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "status", "order": "ASCENDING" },
+        { "fieldPath": "timestamp", "order": "DESCENDING" }
+      ]
+    }
   ]
 }

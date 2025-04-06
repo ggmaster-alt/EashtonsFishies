@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';//package
 import 'pages/user_pages/about_page.dart'; //page
 import 'package:get/get.dart'; //line 28 following coding with t
 import 'package:eashtonsfishies/pages/admin_pages/inventory_page.dart'; //page
-
+import 'package:eashtonsfishies/pages/admin_pages/invoice_view_page.dart';
 import 'package:flutter/material.dart'; //resporitory
 import 'package:firebase_core/firebase_core.dart'; //resporitory
 import 'package:eashtonsfishies/firebase/firebase_options.dart'; // firebase options
@@ -62,6 +62,7 @@ class MyApp extends StatelessWidget {
           'admin': (context) => AdminHomePage(),
           'invoices': (context) => InvoicePage(),
           'userPage': (context) => HomeLogScreen(),
+          'user invoices': (context) => AdminCheck(),
         },
         title: 'Flutter Demo',
         theme: ThemeData(

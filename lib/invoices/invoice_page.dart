@@ -1,9 +1,8 @@
 import 'package:eashtonsfishies/pop/cart_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:eashtonsfishies/invoices/invoice_page_database_function.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 //list for where is our town drop down
 const List<String> townList = <String>[
   'llantrisent',
@@ -31,35 +30,59 @@ class _InvoicePageState extends State<InvoicePage> {
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phonenumberController = TextEditingController();
-  String _selectedTown = townList.first; // Initialize the selected town
+  dynamic newValue; // Initialize the selected town
 
   @override
   void dispose() {
     _postcodeController.dispose();
     _addressController.dispose();
     _nameController.dispose();
-    _phonenumberController.dispose();
+    _phonenumberController.dispose(); // Dispose the selected town
     super.dispose();
   }
+  
 
-  void _handleTownChanged(String? value) {
-    if (value != null) {
-      setState(() {
-        _selectedTown = value;
-      });
-    }
+  bool isValidUKPostcode(String postcode) {
+    return RegExp(
+      r'^([A-Z]{1,2}[0-9][A-Z0-9]? ?[0-9][A-Z]{2}|GIR ?0AA)$',
+      caseSensitive: false,
+    ).hasMatch(postcode);
+  }
+  bool isValidphone(String phonenumber) {
+    return RegExp(
+      r'^(?:\+44|0)7\d{9}$',
+      caseSensitive: false,
+    ).hasMatch(phonenumber);
+  }
+  bool isValidUKadress(String address) {
+    return RegExp(
+      r'^[0-9]+[[:blank:]][A-Za-z]+[[:blank:]][A-Za-z]+',
+      caseSensitive: false,
+    ).hasMatch(address);
   }
 
-  Future<void> _handleConfirm(CartProvider cart) async {
+  Future _handleConfirm(CartProvider cart) async {
     try {
-      await InvoicePageDatabaseFunction().saveInvoiceToFirebase(
-        items: cart.items.values.toList(), // Pass cart items
-        totalAmount: cart.totalAmount, // Pass the total amount
+      final invoiceDb = InvoicePageDatabaseFunction(
+        id: DateTime.now().toString(), 
         name: _nameController.text, // Pass the form data
         phonenumber: _phonenumberController.text,
         postcode: _postcodeController.text,
         address: _addressController.text,
-        town: _selectedTown, // Pass the selected town
+        town: newValue, // Pass the selected town
+        totalAmount: cart.totalAmount, // Pass the total amount
+        status: false,// Pass cart items
+      );
+      await invoiceDb.confirmInvoice(
+        id: DateTime.now().toString(), // Generate a unique ID
+        name: _nameController.text, // Pass the form data
+        phonenumber: _phonenumberController.text,
+        postcode: _postcodeController.text,
+        address: _addressController.text,
+        town: newValue, // Pass the selected town
+        totalAmount: cart.totalAmount, // Pass the total amount
+        status: false,
+        items: cart.items.values.toList(),// Pass cart items
       );
       // Optionally, clear the cart after a successful save:
       cart.clear();
@@ -155,28 +178,44 @@ class _InvoicePageState extends State<InvoicePage> {
                                   TextField(
                                     controller: _phonenumberController,
                                     decoration: InputDecoration(
-                                        labelText: 'Phone number'),
+                                        labelText: 'Phone number', hintText: 'e.g. 07712345678 | +447712345678'),
+                                    inputFormatters: [
+                                      LengthLimitingTextInputFormatter(12),
+                                    ],
                                     //inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^[0-9]{11}$')), // formating will block user from entering incorrect data at each point],
                                   ),
                                   SizedBox(height: 10),
                                   TextField(
                                     controller: _postcodeController,
                                     decoration:
-                                    InputDecoration(labelText: 'Postcode'),
-                                    //inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^[A-Z]{1,2}[0-9]{1,2}[A-Z]? [0-9][A-Z]{2}$')),],
+                                    InputDecoration(labelText: 'Postcode', hintText: 'e.g. CF24 3AA'),
+                                    inputFormatters: [LengthLimitingTextInputFormatter(8)]
                                   ),
                                   SizedBox(height: 10),
                                   TextField(
                                     controller: _addressController,
                                     decoration:
-                                    InputDecoration(labelText: 'Address'),
-                                    //inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^[0-9]{1,4} [A-Za-z ]{1,50}$')),],
+                                    InputDecoration(labelText: 'Address', hintText: 'e.g. 12 Street Name'),
                                   ),
                                   SizedBox(height: 10),
                                   DropdownButton<String>(
-                                      value: _selectedTown,
-                                      isExpanded: true,
-                                      onChanged: _handleTownChanged,
+                                    icon: Icon(Icons.arrow_drop_down),
+                                    iconSize: 24,
+                                    elevation: 16,
+                                    value: newValue,
+                                    hint: Text('Select Town'),
+                                    style: TextStyle(color: Colors.black),
+                                    underline: Container(
+                                      height: 2,
+                                      color: Colors.deepPurpleAccent,
+                                    ),
+                                    isExpanded: true,
+                                    onChanged: (String? changedValue) {
+                                      setState(() {
+                                        newValue = changedValue?.toString();
+                                        print(newValue);
+                                      });
+                                    },
                                       items: townList
                                           .map<DropdownMenuItem<String>>(
                                               (String value) {
@@ -193,6 +232,45 @@ class _InvoicePageState extends State<InvoicePage> {
                                   TextButton(
                                     child: Text('Confirm'),
                                     onPressed: () {
+                                      if (!isValidUKPostcode(_postcodeController.text)) {
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          SnackBar(content: Text('Invalid UK postcode')),
+                                        );
+                                        return;
+                                      }
+                                      if (!isValidphone(_phonenumberController.text)) {
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          SnackBar(content: Text('Invalid phone number')),
+                                        );
+                                        return;
+                                      }
+                                      /*if (!isValidUKadress(_addressController.text)) {
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          SnackBar(content: Text('Invalid address')),
+                                        );
+                                        return;
+                                      }*/
+                                      if (newValue == null) {
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          SnackBar(content: Text('Please select a town')),
+                                        );
+                                        return;
+                                      }
+                                      if (_nameController.text.isEmpty ||
+                                          _phonenumberController.text.isEmpty ||
+                                          _postcodeController.text.isEmpty ||
+                                          _addressController.text.isEmpty) {
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          SnackBar(content: Text('Please fill in all fields')),
+                                        );
+                                        return;
+                                      }
+                                      if (cart.items.isEmpty) {
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          SnackBar(content: Text('Your cart is empty')),
+                                        );
+                                        return;
+                                      }
                                       _handleConfirm(cart);
                                     },
                                   ),

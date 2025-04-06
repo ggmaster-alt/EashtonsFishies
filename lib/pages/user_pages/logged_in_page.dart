@@ -1,9 +1,10 @@
 import 'package:eashtonsfishies/main.dart';
-import 'package:eashtonsfishies/pages/user_pages/profile_screen.dart';
+import 'package:eashtonsfishies/pages/user_pages/user_invoice_view.dart';
 import 'package:eashtonsfishies/pop/loggedin_layout.dart';
 import 'package:flutter/material.dart';//resporitory//page
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:eashtonsfishies/pages/user_pages/change_password.dart';
 class HomeLogScreen extends StatelessWidget {
   const HomeLogScreen({super.key});
 
@@ -30,9 +31,14 @@ class HomeLogScreen extends StatelessWidget {
   }
 }
 
-class NavigationBar extends StatelessWidget {
+class NavigationBar extends StatefulWidget {
   const NavigationBar({super.key});
 
+  @override
+  State<NavigationBar> createState() => _NavigationBarState();
+}
+
+class _NavigationBarState extends State<NavigationBar> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -80,7 +86,9 @@ class NavigationBar extends StatelessWidget {
                           ),
                           IconButton(
                             icon: Icon(Icons.lock_person),
-                            onPressed: () => CustomProfileScreen(),
+                            onPressed: () async{
+                              return PasswordChangeDialog(context);
+                            },
                           ),
                           SizedBox(
                             width:50,
@@ -88,19 +96,8 @@ class NavigationBar extends StatelessWidget {
                           IconButton(
                             icon: Icon(Icons.paid_rounded),
                             onPressed: () async {
-                              if (!context.mounted) return;
-                              showDialog(
-                                context: context,
-                                builder: (context) => AlertDialog(
-                                  title: Text('cool back'),
-                                  actions: <Widget>[
-                                    TextButton(
-                                      onPressed: () => showInvoicesDialog,
-                                      child: Text('back'),
-                                    ),
-                                  ],
-                                ),
-                              );
+                              // Fetch user invoices
+                              return UserInvoiceView(context);//UserInvoiceView(context);  
                             },
 
                           ),
@@ -134,6 +131,7 @@ class NavigationBar extends StatelessWidget {
       )
     );
   }
+  
 }
 
 class _NavBarItem extends StatelessWidget{
