@@ -16,7 +16,10 @@ steps for running this system
 
    
 2. once downoaded run in the terminal:
+   
    flutter pub get
+
+   
    this will download all dependancies.
 
    
