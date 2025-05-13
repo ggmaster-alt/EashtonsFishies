@@ -21,17 +21,17 @@
 
    
 - ### once downoaded RUN IN THE TERMINAL:
-' ' ' 
+   - this will download all dependancies.
+```
 
 flutter pub get
-' ' '
-      - this will download all dependancies
-  .
+```
+
 
 
    
 - ###  RUN this program by writing in the terminal:
-'''
+```
 
 flutter run
-'''
+```
