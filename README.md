@@ -14,13 +14,14 @@ steps for running this system
    [Flutter: download for vscode](https://docs.flutter.dev/get-started/install)
    follow this tortorial
 
+
    
 - once downoaded RUN IN THE TERMINAL:
    
-   flutter pub get
-  
+   - flutter pub get
    
-   this will download all dependancies.
+      - this will download all dependancies.
+
 
    
 - RUN the program from main.dart file
