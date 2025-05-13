@@ -6,7 +6,8 @@
 
 PROJECT FOR E ASHTONS FISHMONGERS
 .
-steps for running this system.
+steps for running this system
+.
 
 1. download flutter sdk
    https://docs.flutter.dev/get-started/install
