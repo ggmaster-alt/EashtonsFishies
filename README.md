@@ -7,29 +7,31 @@
 # PROJECT FOR E ASHTONS FISHMONGERS
 .
 
-# # STEPS FOR RUNNING THIS SYSTEM
+## STEPS FOR RUNNING THIS SYSTEM
 .
 
-**Note: this is a flutter web application and should be run in a browser**
+*Note: this is a flutter web application and should be run in a browser*
 .
 
-- # # # DOWNLOAD flutter sdk
+- ### DOWNLOAD flutter sdk
    [Flutter: download for vscode](https://docs.flutter.dev/get-started/install):
    follow this tutorial
   .
 
 
    
-- # # # once downoaded RUN IN THE TERMINAL:
-   '''
-  flutter pub get
-   '''
+- ### once downoaded RUN IN THE TERMINAL:
+'''
+
+flutter pub get
+'''
       - this will download all dependancies
   .
 
 
    
-- # # # RUN this program by writing in the terminal:
+- ###  RUN this program by writing in the terminal:
 '''
- flutter run
+
+flutter run
 '''
