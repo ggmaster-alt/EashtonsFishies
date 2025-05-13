@@ -21,10 +21,10 @@
 
    
 - ### once downoaded RUN IN THE TERMINAL:
-'''
+' ' ' 
 
 flutter pub get
-'''
+' ' '
       - this will download all dependancies
   .
 
