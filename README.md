@@ -7,7 +7,7 @@
 PROJECT FOR E ASHTONS FISHMONGERS
 .
 
-steps for running this system
+STEPS FOR RUNNING THIS SYSTEM
 .
 
 Note: this is a flutter web application and should be run in a browser
