@@ -10,6 +10,9 @@ PROJECT FOR E ASHTONS FISHMONGERS
 steps for running this system
 .
 
+Note: this is a flutter web application and should be run in a browser
+.
+
 - DOWNLOAD flutter sdk
    [Flutter: download for vscode](https://docs.flutter.dev/get-started/install)
    follow this tortorial
