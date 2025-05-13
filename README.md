@@ -23,9 +23,7 @@
 - ### once downoaded RUN IN THE TERMINAL:
    - this will download all dependancies.
 ```
-
 flutter pub get
-
 ```
 
 
@@ -33,7 +31,5 @@ flutter pub get
    
 - ###  RUN this program by writing in the terminal:
 ```
-
 flutter run
-
 ```
