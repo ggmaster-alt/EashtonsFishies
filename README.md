@@ -13,6 +13,9 @@
 *Note: this is a flutter web application and should be run in a browser*
 .
 
+*2nd Note: the database is not hosted on your computer, however you will be able to read and edit the database from any device that runs the program.*.
+
+
 - ### DOWNLOAD flutter sdk
    [Flutter: download for vscode](https://docs.flutter.dev/get-started/install):
    follow this tutorial
